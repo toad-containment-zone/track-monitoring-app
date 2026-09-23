@@ -6,8 +6,7 @@ records how many seconds into the walk you found it. When the walk ends you add 
 details and the record syncs to our ODK Central form. The app logs a GPS track of the walk
 automatically. It works fully offline once installed, so you don't need signal in the field.
 
-**App URL:** not published yet. Once it's live on GitHub Pages it will be
-`https://toad-containment-zone.github.io/track-monitoring-app/`.
+**App URL:** [https://toad-containment-zone.github.io/track-monitoring-app/](https://toad-containment-zone.github.io/track-monitoring-app/)
 
 ## Setup (do this once)
 
