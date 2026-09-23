@@ -1,0 +1,453 @@
+<?xml version="1.0"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms" xmlns:odk="http://www.opendatakit.org/xforms">
+  <h:head>
+    <h:title>Track Survey Time-to-Detection</h:title>
+    <model odk:xforms-version="1.0.0">
+      <instance>
+        <data id="track_ttd_survey">
+          <date/>
+          <start_time/>
+          <location_lat/>
+          <location_lon/>
+          <survey_track/>
+          <survey_track_seconds/>
+          <observer_names/>
+          <duration_seconds/>
+          <people_searching/>
+          <recent_rain/>
+          <substrate>red</substrate>
+          <notes/>
+          <detection jr:template="">
+            <species/>
+            <species_other/>
+            <ttd_seconds/>
+            <detection_lat/>
+            <detection_lon/>
+          </detection>
+          <detection>
+            <species/>
+            <species_other/>
+            <ttd_seconds/>
+            <detection_lat/>
+            <detection_lon/>
+          </detection>
+          <meta>
+            <instanceID/>
+          </meta>
+        </data>
+      </instance>
+      <instance id="yes_no_choices">
+        <root>
+          <item>
+            <name>Yes</name>
+            <label>Yes</label>
+          </item>
+          <item>
+            <name>No</name>
+            <label>No</label>
+          </item>
+        </root>
+      </instance>
+      <instance id="substrate_choices">
+        <root>
+          <item>
+            <name>red</name>
+            <label>Red</label>
+          </item>
+          <item>
+            <name>grey</name>
+            <label>Grey</label>
+          </item>
+        </root>
+      </instance>
+      <instance id="species_choices">
+        <root>
+          <item>
+            <name>sand_goanna</name>
+            <label>Goanna – Sand goanna (Wanggali)</label>
+            <group>goanna</group>
+          </item>
+          <item>
+            <name>small_goanna</name>
+            <label>Goanna – Small goanna (e.g. spiny-tailed, pygmy)</label>
+            <group>goanna</group>
+          </item>
+          <item>
+            <name>perentie</name>
+            <label>Goanna – Perentie</label>
+            <group>goanna</group>
+          </item>
+          <item>
+            <name>yellow_spotted_goanna</name>
+            <label>Goanna – Yellow-spotted goanna</label>
+            <group>goanna</group>
+          </item>
+          <item>
+            <name>large_goanna_unsure</name>
+            <label>Goanna – Large goanna – unsure</label>
+            <group>goanna</group>
+          </item>
+          <item>
+            <name>wallaby_unsure</name>
+            <label>Macropod – Wallaby – unsure</label>
+            <group>macropod</group>
+          </item>
+          <item>
+            <name>spectacled_hare_wallaby</name>
+            <label>Macropod – Spectacled hare-wallaby</label>
+            <group>macropod</group>
+          </item>
+          <item>
+            <name>hare_wallaby_other</name>
+            <label>Macropod – Hare-wallaby – other</label>
+            <group>macropod</group>
+          </item>
+          <item>
+            <name>agile_wallaby</name>
+            <label>Macropod – Agile wallaby</label>
+            <group>macropod</group>
+          </item>
+          <item>
+            <name>nailtail_wallaby</name>
+            <label>Macropod – Northern nailtail wallaby</label>
+            <group>macropod</group>
+          </item>
+          <item>
+            <name>euro</name>
+            <label>Macropod – Euro</label>
+            <group>macropod</group>
+          </item>
+          <item>
+            <name>red_kangaroo</name>
+            <label>Macropod – Red kangaroo</label>
+            <group>macropod</group>
+          </item>
+          <item>
+            <name>western_grey_kangaroo</name>
+            <label>Macropod – Western grey kangaroo</label>
+            <group>macropod</group>
+          </item>
+          <item>
+            <name>kangaroo_unsure</name>
+            <label>Macropod – Kangaroo – unsure</label>
+            <group>macropod</group>
+          </item>
+          <item>
+            <name>bluetongue</name>
+            <label>Lizard – Blue-tongue</label>
+            <group>lizard</group>
+          </item>
+          <item>
+            <name>dragon</name>
+            <label>Lizard – Dragon</label>
+            <group>lizard</group>
+          </item>
+          <item>
+            <name>sand_slider</name>
+            <label>Lizard – Sand slider (Lerista)</label>
+            <group>lizard</group>
+          </item>
+          <item>
+            <name>legless_lizard</name>
+            <label>Lizard – Legless lizard</label>
+            <group>lizard</group>
+          </item>
+          <item>
+            <name>skink</name>
+            <label>Lizard – Skink</label>
+            <group>lizard</group>
+          </item>
+          <item>
+            <name>great_desert_skink</name>
+            <label>Lizard – Great Desert Skink</label>
+            <group>lizard</group>
+          </item>
+          <item>
+            <name>thorny_devil</name>
+            <label>Lizard – Thorny devil</label>
+            <group>lizard</group>
+          </item>
+          <item>
+            <name>other_lizard</name>
+            <label>Lizard – Other lizard (describe)</label>
+            <group>lizard</group>
+          </item>
+          <item>
+            <name>cat</name>
+            <label>Cat / dog / fox – Cat</label>
+            <group>cat_dog_fox</group>
+          </item>
+          <item>
+            <name>dingo</name>
+            <label>Cat / dog / fox – Dingo / dog</label>
+            <group>cat_dog_fox</group>
+          </item>
+          <item>
+            <name>fox</name>
+            <label>Cat / dog / fox – Fox</label>
+            <group>cat_dog_fox</group>
+          </item>
+          <item>
+            <name>snake_unsure</name>
+            <label>Snake – Snake – unsure</label>
+            <group>snake</group>
+          </item>
+          <item>
+            <name>death_adder</name>
+            <label>Snake – Death adder</label>
+            <group>snake</group>
+          </item>
+          <item>
+            <name>king_brown</name>
+            <label>Snake – King brown</label>
+            <group>snake</group>
+          </item>
+          <item>
+            <name>python</name>
+            <label>Snake – Python</label>
+            <group>snake</group>
+          </item>
+          <item>
+            <name>small_snake</name>
+            <label>Snake – Small snake</label>
+            <group>snake</group>
+          </item>
+          <item>
+            <name>hopping_mouse</name>
+            <label>Native mammal – Hopping mouse</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>bilby</name>
+            <label>Native mammal – Bilby</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>small_mammal</name>
+            <label>Native mammal – Small mammal (mouse / dunnart)</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>mulgara</name>
+            <label>Native mammal – Mulgara / Ampurta</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>large_rat</name>
+            <label>Native mammal – Large rat</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>bandicoot</name>
+            <label>Native mammal – Bandicoot</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>bettong</name>
+            <label>Native mammal – Bettong</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>quoll</name>
+            <label>Native mammal – Quoll</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>echidna</name>
+            <label>Native mammal – Echidna</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>possum</name>
+            <label>Native mammal – Possum</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>marsupial_mole</name>
+            <label>Native mammal – Marsupial mole</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>other_mammal</name>
+            <label>Native mammal – Other mammal (describe)</label>
+            <group>native_mammal</group>
+          </item>
+          <item>
+            <name>bustard</name>
+            <label>Bird – Bustard (turkey)</label>
+            <group>bird</group>
+          </item>
+          <item>
+            <name>emu</name>
+            <label>Bird – Emu</label>
+            <group>bird</group>
+          </item>
+          <item>
+            <name>curlew</name>
+            <label>Bird – Curlew</label>
+            <group>bird</group>
+          </item>
+          <item>
+            <name>quail</name>
+            <label>Bird – Quail</label>
+            <group>bird</group>
+          </item>
+          <item>
+            <name>walking_bird_other</name>
+            <label>Bird – Walking bird – other</label>
+            <group>bird</group>
+          </item>
+          <item>
+            <name>hopping_bird_other</name>
+            <label>Bird – Hopping bird – other</label>
+            <group>bird</group>
+          </item>
+          <item>
+            <name>camel</name>
+            <label>Feral herbivore – Camel</label>
+            <group>feral_herbivore</group>
+          </item>
+          <item>
+            <name>cow</name>
+            <label>Feral herbivore – Cow</label>
+            <group>feral_herbivore</group>
+          </item>
+          <item>
+            <name>donkey</name>
+            <label>Feral herbivore – Donkey</label>
+            <group>feral_herbivore</group>
+          </item>
+          <item>
+            <name>horse</name>
+            <label>Feral herbivore – Horse</label>
+            <group>feral_herbivore</group>
+          </item>
+          <item>
+            <name>goat</name>
+            <label>Feral herbivore – Goat</label>
+            <group>feral_herbivore</group>
+          </item>
+          <item>
+            <name>pig</name>
+            <label>Feral herbivore – Pig</label>
+            <group>feral_herbivore</group>
+          </item>
+          <item>
+            <name>rabbit</name>
+            <label>Feral herbivore – Rabbit</label>
+            <group>feral_herbivore</group>
+          </item>
+          <item>
+            <name>insect</name>
+            <label>Other – Insect / invertebrate</label>
+            <group>other</group>
+          </item>
+          <item>
+            <name>unknown_tracks</name>
+            <label>Other – Unknown tracks</label>
+            <group>other</group>
+          </item>
+          <item>
+            <name>other</name>
+            <label>Other – Other (describe)</label>
+            <group>other</group>
+          </item>
+        </root>
+      </instance>
+      <bind nodeset="/data/date" type="date" required="true()"/>
+      <bind nodeset="/data/start_time" type="time" required="true()"/>
+      <bind nodeset="/data/location_lat" type="decimal" required="false()"/>
+      <bind nodeset="/data/location_lon" type="decimal" required="false()"/>
+      <bind nodeset="/data/survey_track" type="geotrace" required="false()"/>
+      <bind nodeset="/data/survey_track_seconds" type="string" required="false()"/>
+      <bind nodeset="/data/observer_names" type="string" required="false()"/>
+      <bind nodeset="/data/duration_seconds" type="int" required="true()" constraint=". &gt;= 0"/>
+      <bind nodeset="/data/people_searching" type="decimal" required="true()" constraint=". &gt; 0" jr:constraintMsg="Must be more than 0"/>
+      <bind nodeset="/data/recent_rain" type="string" required="true()"/>
+      <bind nodeset="/data/substrate" type="string" required="true()"/>
+      <bind nodeset="/data/notes" type="string" required="false()"/>
+      <bind nodeset="/data/detection/species" type="string" required="true()"/>
+      <bind nodeset="/data/detection/species_other" type="string" required="true()" relevant=" ../species  = 'other_lizard' or  ../species  = 'other_mammal' or  ../species  = 'other'"/>
+      <bind nodeset="/data/detection/ttd_seconds" type="int" required="true()" constraint=". &gt;= 0"/>
+      <bind nodeset="/data/detection/detection_lat" type="decimal" required="false()"/>
+      <bind nodeset="/data/detection/detection_lon" type="decimal" required="false()"/>
+      <bind nodeset="/data/meta/instanceID" type="string" readonly="true()" jr:preload="uid"/>
+    </model>
+  </h:head>
+  <h:body>
+    <input ref="/data/date">
+      <label>Date</label>
+    </input>
+    <input ref="/data/start_time">
+      <label>Survey start time</label>
+    </input>
+    <input ref="/data/location_lat">
+      <label>Latitude</label>
+      <hint>GPS latitude, captured when the survey is started</hint>
+    </input>
+    <input ref="/data/location_lon">
+      <label>Longitude</label>
+      <hint>GPS longitude, captured when the survey is started</hint>
+    </input>
+    <input ref="/data/survey_track">
+      <label>Survey track</label>
+      <hint>Auto-recorded GPS track of the walk</hint>
+    </input>
+    <input ref="/data/survey_track_seconds">
+      <label>Survey track point times (elapsed seconds)</label>
+    </input>
+    <input ref="/data/observer_names">
+      <label>Observer names</label>
+    </input>
+    <input ref="/data/duration_seconds">
+      <label>Survey duration (seconds)</label>
+      <hint>Total walk time from start to end of survey</hint>
+    </input>
+    <input ref="/data/people_searching">
+      <label>Number of people searching</label>
+      <hint>Can be fractional, e.g. 1.5 if someone joined partway</hint>
+    </input>
+    <select1 ref="/data/recent_rain">
+      <label>Recent rain?</label>
+      <itemset nodeset="instance('yes_no_choices')/root/item">
+        <value ref="name"/>
+        <label ref="label"/>
+      </itemset>
+    </select1>
+    <select1 ref="/data/substrate">
+      <label>Substrate</label>
+      <itemset nodeset="instance('substrate_choices')/root/item">
+        <value ref="name"/>
+        <label ref="label"/>
+      </itemset>
+    </select1>
+    <input ref="/data/notes">
+      <label>Notes</label>
+    </input>
+    <group ref="/data/detection">
+      <label>Species detection</label>
+      <repeat nodeset="/data/detection">
+        <select1 ref="/data/detection/species">
+          <label>Species</label>
+          <itemset nodeset="instance('species_choices')/root/item">
+            <value ref="name"/>
+            <label ref="label"/>
+          </itemset>
+        </select1>
+        <input ref="/data/detection/species_other">
+          <label>Please describe</label>
+        </input>
+        <input ref="/data/detection/ttd_seconds">
+          <label>Time to detection (seconds)</label>
+          <hint>Seconds from survey start to first sign of this species</hint>
+        </input>
+        <input ref="/data/detection/detection_lat">
+          <label>Detection latitude</label>
+        </input>
+        <input ref="/data/detection/detection_lon">
+          <label>Detection longitude</label>
+        </input>
+      </repeat>
+    </group>
+  </h:body>
+</h:html>
