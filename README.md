@@ -21,7 +21,7 @@ project.
 
    Open the app once while you have signal so it can finish setting up for offline use.
 2. **Add your app user code.** Tap ⚙, then either scan the QR code with **📷 Scan QR code
-   instead** or paste the text code. Optionally add the observer names. Tap **Save settings**.
+   instead** or paste the text code. Tap **Save settings**.
 3. When your phone asks for location permission, allow it. The app uses your location only to
    record where each walk went.
 
@@ -34,12 +34,16 @@ project.
    - Pressed the wrong group? Tap **‹ Back**. Nothing is recorded.
    - Picked the wrong species? Tap **Undo** on the message that pops up.
    - A species you've already recorded is greyed out and shows the time you found it.
+   - Not sure what it is yet (e.g. a scat you want to show the others)? Record your best guess,
+     or an "unsure" option. Later, tap it under **Seen this walk** (or on the end-of-walk
+     screen) to change it. The time you first saw it stays the same.
    - For something not on the list, use **Other (describe)** (in the Lizard, Native mammal and
      Other groups) and type a short description. You can record these more than once.
-3. When the walk is over, tap **End walk** and then tap it again to confirm.
+3. When the walk is over, tap **End walk**, then **Yes, end walk**.
 4. Fill in the number of people searching (half-people are OK, e.g. 1.5 if someone joined
-   partway), whether there's been recent rain, and the substrate (red is the default). Remove
-   any mistaken species with ✕, then tap **Save survey**.
+   partway), whether there's been recent rain, the dirt colour (red is the default), and
+   whether it was a road walk or a bush walk. Tap a species name to change it, or ✕ to remove
+   a mistake, then tap **Save survey**. Once saved, a survey can't be changed.
    - Ended the walk by accident? Tap 🗑, then **Resume walk**.
 
 Records are always saved on the phone first and sync to Central automatically whenever you have
