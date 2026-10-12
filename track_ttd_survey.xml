@@ -11,11 +11,11 @@
           <location_lon/>
           <survey_track/>
           <survey_track_seconds/>
-          <observer_names/>
           <duration_seconds/>
           <people_searching/>
           <recent_rain/>
           <substrate>red</substrate>
+          <walk_type/>
           <notes/>
           <detection jr:template="">
             <species/>
@@ -60,6 +60,18 @@
           </item>
         </root>
       </instance>
+      <instance id="walk_type_choices">
+        <root>
+          <item>
+            <name>road</name>
+            <label>Road walk</label>
+          </item>
+          <item>
+            <name>bush</name>
+            <label>Bush walk</label>
+          </item>
+        </root>
+      </instance>
       <instance id="species_choices">
         <root>
           <item>
@@ -89,47 +101,47 @@
           </item>
           <item>
             <name>wallaby_unsure</name>
-            <label>Macropod – Wallaby – unsure</label>
+            <label>Kangaroo / wallaby – Wallaby – unsure</label>
             <group>macropod</group>
           </item>
           <item>
             <name>spectacled_hare_wallaby</name>
-            <label>Macropod – Spectacled hare-wallaby</label>
+            <label>Kangaroo / wallaby – Spectacled hare-wallaby</label>
             <group>macropod</group>
           </item>
           <item>
             <name>hare_wallaby</name>
-            <label>Macropod – Hare-wallaby</label>
+            <label>Kangaroo / wallaby – Hare-wallaby</label>
             <group>macropod</group>
           </item>
           <item>
             <name>agile_wallaby</name>
-            <label>Macropod – Agile wallaby</label>
+            <label>Kangaroo / wallaby – Agile wallaby</label>
             <group>macropod</group>
           </item>
           <item>
             <name>nailtail_wallaby</name>
-            <label>Macropod – Northern nailtail wallaby</label>
+            <label>Kangaroo / wallaby – Northern nailtail wallaby</label>
             <group>macropod</group>
           </item>
           <item>
             <name>euro</name>
-            <label>Macropod – Euro</label>
+            <label>Kangaroo / wallaby – Euro</label>
             <group>macropod</group>
           </item>
           <item>
             <name>red_kangaroo</name>
-            <label>Macropod – Red kangaroo</label>
+            <label>Kangaroo / wallaby – Red kangaroo</label>
             <group>macropod</group>
           </item>
           <item>
             <name>western_grey_kangaroo</name>
-            <label>Macropod – Western grey kangaroo</label>
+            <label>Kangaroo / wallaby – Western grey kangaroo</label>
             <group>macropod</group>
           </item>
           <item>
             <name>kangaroo_unsure</name>
-            <label>Macropod – Kangaroo – unsure</label>
+            <label>Kangaroo / wallaby – Kangaroo – unsure</label>
             <group>macropod</group>
           </item>
           <item>
@@ -304,37 +316,37 @@
           </item>
           <item>
             <name>camel</name>
-            <label>Feral herbivore – Camel</label>
+            <label>Camel, cow &amp; other feral – Camel</label>
             <group>feral_herbivore</group>
           </item>
           <item>
             <name>cow</name>
-            <label>Feral herbivore – Cow</label>
+            <label>Camel, cow &amp; other feral – Cow</label>
             <group>feral_herbivore</group>
           </item>
           <item>
             <name>donkey</name>
-            <label>Feral herbivore – Donkey</label>
+            <label>Camel, cow &amp; other feral – Donkey</label>
             <group>feral_herbivore</group>
           </item>
           <item>
             <name>horse</name>
-            <label>Feral herbivore – Horse</label>
+            <label>Camel, cow &amp; other feral – Horse</label>
             <group>feral_herbivore</group>
           </item>
           <item>
             <name>goat</name>
-            <label>Feral herbivore – Goat</label>
+            <label>Camel, cow &amp; other feral – Goat</label>
             <group>feral_herbivore</group>
           </item>
           <item>
             <name>pig</name>
-            <label>Feral herbivore – Pig</label>
+            <label>Camel, cow &amp; other feral – Pig</label>
             <group>feral_herbivore</group>
           </item>
           <item>
             <name>rabbit</name>
-            <label>Feral herbivore – Rabbit</label>
+            <label>Camel, cow &amp; other feral – Rabbit</label>
             <group>feral_herbivore</group>
           </item>
           <item>
@@ -360,11 +372,11 @@
       <bind nodeset="/data/location_lon" type="decimal" required="false()"/>
       <bind nodeset="/data/survey_track" type="geotrace" required="false()"/>
       <bind nodeset="/data/survey_track_seconds" type="string" required="false()"/>
-      <bind nodeset="/data/observer_names" type="string" required="false()"/>
       <bind nodeset="/data/duration_seconds" type="int" required="true()" constraint=". &gt;= 0"/>
       <bind nodeset="/data/people_searching" type="decimal" required="true()" constraint=". &gt; 0" jr:constraintMsg="Must be more than 0"/>
       <bind nodeset="/data/recent_rain" type="string" required="true()"/>
       <bind nodeset="/data/substrate" type="string" required="true()"/>
+      <bind nodeset="/data/walk_type" type="string" required="true()"/>
       <bind nodeset="/data/notes" type="string" required="false()"/>
       <bind nodeset="/data/detection/species" type="string" required="true()"/>
       <bind nodeset="/data/detection/species_other" type="string" required="true()" relevant=" ../species  = 'other_lizard' or  ../species  = 'other_mammal' or  ../species  = 'other'"/>
@@ -396,9 +408,6 @@
     <input ref="/data/survey_track_seconds">
       <label>Survey track point times (elapsed seconds)</label>
     </input>
-    <input ref="/data/observer_names">
-      <label>Observer names</label>
-    </input>
     <input ref="/data/duration_seconds">
       <label>Survey duration (seconds)</label>
       <hint>Total walk time from start to end of survey</hint>
@@ -415,8 +424,15 @@
       </itemset>
     </select1>
     <select1 ref="/data/substrate">
-      <label>Substrate</label>
+      <label>Dirt colour</label>
       <itemset nodeset="instance('substrate_choices')/root/item">
+        <value ref="name"/>
+        <label ref="label"/>
+      </itemset>
+    </select1>
+    <select1 ref="/data/walk_type">
+      <label>Road walk or bush walk?</label>
+      <itemset nodeset="instance('walk_type_choices')/root/item">
         <value ref="name"/>
         <label ref="label"/>
       </itemset>

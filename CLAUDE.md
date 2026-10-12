@@ -42,8 +42,10 @@ xls2xform --odk_validate --pretty_print track_ttd_survey.xlsx track_ttd_survey.x
    - `running` mirrors `walkState === 'running'` for the ported helpers.
    - The timer card has two views: `#idleView` (ring + Start) and `#walkView` (compact clock +
      End walk). The species picker (`#pickerCard`) is visible only while walking.
-   - **End walk needs two taps**: the first arms the button for 3 s. This avoids a blocking
-     `confirm()`.
+   - **End walk asks first** in a small sheet (`#endConfirmOverlay`: "Yes, end walk" / "No,
+     keep walking"). It isn't a blocking `confirm()`, so the clock and GPS track keep running
+     while it's open. It replaced a tap-twice button, because field crews didn't realise it
+     needed the second tap (issue #2).
    - The end-of-walk sheet (`#overlay`) has **no backdrop-tap dismiss**, because it holds the
      whole walk. The ways out are Save, or 🗑 → Resume walk (continues the same clock) /
      Discard walk.
@@ -65,6 +67,14 @@ xls2xform --odk_validate --pretty_print track_ttd_survey.xlsx track_ttd_survey.x
    - A recorded leaf is disabled and shows its time. The exception is leaves with `other: true`
      (`other_lizard`, `other_mammal`, `other`): these open `#otherOverlay` for a description,
      stay enabled, and warn once on a case-insensitive duplicate description.
+   - **Changing a detection** (issue #2): tapping a "Seen this walk" chip, or a name on the
+     end-of-walk sheet, opens `#editOverlay`. This is a second copy of the two-level picker,
+     driven by `editingId`/`editGroup`. Changing a detection relabels it, but `ttd_seconds` and
+     the detection location stay, since they belong to the moment the sign was first seen.
+     `other: true` leaves go through `#otherOverlay`, which has a higher z-index so it can sit
+     on top of either sheet. If the chosen species is already recorded, `applyEdit()` merges
+     the two, keeping the earlier TTD. Undo is offered only mid-walk; on the end sheet the
+     toast would cover Save. Saved records are final.
    - Each tap shows a 5 s toast with **Undo**. `showToast()` is the toad app's toast plus an
      optional undo callback, and it's dismissed when the walk ends so it doesn't cover the
      sheet's Save row.
@@ -84,6 +94,10 @@ xls2xform --odk_validate --pretty_print track_ttd_survey.xlsx track_ttd_survey.x
    in the XLSForm `survey` sheet, with no `FIELD_MAP`. `date` is the **local** date. (Goanna uses
    `toISOString()`, which gives the UTC date, i.e. the previous day for WA walks before 08:00.)
    `start_time` is local `HH:MM:SS`.
+   - `walk_type` (`road` | `bush`) is required and has no default, like `recent_rain`. Records
+     queued before it existed send it empty.
+   - `observer_names` was dropped from the settings and the form in v2 (issue #1). The old
+     form versions on Central still have the column.
 6. **Submission XML with a repeat.** `buildSubmissionXml()` emits:
    - `<data id="track_ttd_survey">` with the flat fields in survey order,
    - then one `<detection>` (`species`, `species_other`, `ttd_seconds`, `detection_lat`,
@@ -104,6 +118,9 @@ when the app was built. When adding or reordering species, edit both by hand and
 identical.
 - **Never rename or reuse an existing code.** Codes are the stored data. Labels can change
   freely.
+  For example, the `macropod` and `feral_herbivore` categories are labelled "Kangaroo / wallaby"
+  and "Camel, cow & other feral" for rangers (issue #2), but their codes didn't change. The
+  XLSForm leaf labels carry the category label as a prefix, so relabel both places.
 - Adding an `other: true` leaf also means adding it to the `species_other` `relevant` expression
   in the XLSForm.
 - Adding any choice means re-compiling the `.xml` and re-publishing the form on Central.
@@ -113,7 +130,7 @@ identical.
 The same CSS-custom-property shell as the sibling apps, re-themed pindan/ochre/spinifex
 (`--pindan`, `--ochre`, `--spinifex`, `--rock`, `--cream`) so crews with all three apps
 installed can tell them apart. The header logo and jsQR block were copied verbatim from the
-goanna app. The app icon (two paw prints on pindan, embedded as a data URI in `manifest.json` and
+goanna app. The app icon (two pairs of kangaroo hind-foot prints with tail drags, on pindan, embedded as a data URI in `manifest.json` and
 the `apple-touch-icon` link) was generated with Pillow. Regenerate it rather than hand-editing the
 base64.
 
