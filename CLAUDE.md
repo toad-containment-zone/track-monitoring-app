@@ -90,6 +90,14 @@ xls2xform --odk_validate --pretty_print track_ttd_survey.xlsx track_ttd_survey.x
      borrows the nearest track vertex within 60 s (`DETECTION_TRACK_FALLBACK_MS`), and otherwise
      leaves the fields blank.
    - `location_lat`/`lon` hold the start fix, falling back to the first track vertex.
+   - **Every fix is checked for freshness by its own `pos.timestamp` (`isFreshFix()`), not only
+     by `maximumAge`.** On the Oct 2026 Nyangumarta trip, the iPad replayed its last-known
+     position, so 11 of 51 walks started with a first vertex at the previous walk's end point,
+     1-4 km away. In 2 of those, the start fix was that point too, because the replayed fix had good
+     accuracy and ended the sample early. The start vertex now asks for `maximumAge` 0, and
+     `sampleLocation()` ignores fixes taken before sampling began. The warehouse ETL
+     (`../data-warehousing`, `R/flatten_track_survey.R`) drops such stale start vertices from
+     older records.
 5. **Record/field naming follows the toad app's convention.** Record fields are named exactly as
    in the XLSForm `survey` sheet, with no `FIELD_MAP`. `date` is the **local** date. (Goanna uses
    `toISOString()`, which gives the UTC date, i.e. the previous day for WA walks before 08:00.)
@@ -106,8 +114,9 @@ xls2xform --odk_validate --pretty_print track_ttd_survey.xlsx track_ttd_survey.x
 
    The shape was copied from pyxform's compiled instance, leaving out its `jr:template` copy. A
    walk with nothing seen emits no `<detection>`, which is valid. Central exports the repeat as
-   a second table (`…-detection.csv`, keyed by `PARENT_KEY`). No warehouse ETL exists for this
-   form yet.
+   a second table (`…-detection.csv`, keyed by `PARENT_KEY`). The warehouse ETL in
+   `../data-warehousing` (`R/flatten_track_survey.R`) pulls it from the OData feed
+   `Submissions.detection`.
 
 ## Keeping species in sync
 
