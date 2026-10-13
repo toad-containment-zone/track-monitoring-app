@@ -1152,6 +1152,15 @@
       opts || { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 });
   }
 
+  // iOS can hand back its last-known position, timestamped when it was really taken, even
+  // with maximumAge set: a walk's first vertex (and sometimes its sampled start fix) turned out
+  // to be the previous walk's end point, 1-4 km away (Nyangumarta trip, Oct 2026). So every
+  // caller also checks the fix's own timestamp. FIX_CLOCK_SLACK_MS allows for device clock jitter.
+  const FIX_CLOCK_SLACK_MS = 5000;
+  function isFreshFix(pos, maxAgeMs) {
+    return !pos.timestamp || pos.timestamp >= Date.now() - maxAgeMs - FIX_CLOCK_SLACK_MS;
+  }
+
   function geoErrorMessage(err) {
     switch (err && err.code) {
       case 1: return 'Location permission is off for this app — enable it in your device settings so surveys record GPS coordinates.';
@@ -1178,11 +1187,12 @@
   // never collide. A failed/skipped fix just leaves a gap in the track, which is fine. lat/lon are
   // stored full-precision (rounding happens in prepareTrack()); the opts are looser than the
   // page-load check — a breadcrumb can wait longer for a fix and a slightly stale one is fine.
-  function logTrackPoint() {
+  // The start vertex passes maxAgeMs 0: a cached fix there is wherever the device last was.
+  function logTrackPoint(maxAgeMs = 30000) {
     if (!running || trackPoints.length >= TRACK_MAX_POINTS) return;
     getLocation(
       pos => {
-        if (!running) return;
+        if (!running || !isFreshFix(pos, maxAgeMs)) return;
         trackPoints.push({
           ms: Date.now() - startTs,
           lat: pos.coords.latitude,
@@ -1194,7 +1204,7 @@
         saveActiveWalk();
       },
       () => {},
-      { enableHighAccuracy: true, timeout: 25000, maximumAge: 30000 }
+      { enableHighAccuracy: true, timeout: 25000, maximumAge: maxAgeMs }
     );
   }
 
@@ -1205,6 +1215,7 @@
     getLocation(
       pos => {
         if (walkState !== 'stopped' || trackPoints.length >= TRACK_MAX_POINTS) return;
+        if (!isFreshFix(pos, 10000)) return;
         trackPoints.push({
           ms: stopMs,
           lat: pos.coords.latitude,
@@ -1265,6 +1276,7 @@
     if (activeGpsStop) activeGpsStop(true);
     if (!navigator.geolocation) { onError({ code: 0 }); return () => {}; }
     let best = null, settled = false;
+    const sampleStartTs = Date.now();
     const stop = (abort) => {
       if (settled) return;
       settled = true;
@@ -1276,6 +1288,9 @@
     };
     const id = navigator.geolocation.watchPosition(
       pos => {
+        // A replayed last-known fix (see isFreshFix) often has a good accuracy, which would
+        // otherwise end the sample at once on the wrong spot.
+        if (pos.timestamp && pos.timestamp < sampleStartTs - FIX_CLOCK_SLACK_MS) return;
         if (!best || pos.coords.accuracy < best.coords.accuracy) best = pos;
         onProgress(best);
         if (best.coords.accuracy <= GPS_TARGET_ACCURACY_M) stop();
@@ -1338,7 +1353,7 @@
     openGroup = null;
     pendingTtdMs = null;
     startTiming();
-    logTrackPoint(); // start vertex (ms ~ 0)
+    logTrackPoint(0); // start vertex (ms ~ 0), fresh fix only
     fetchStartLocation();
     saveActiveWalk();
   });
@@ -1455,6 +1470,7 @@
     // keeps the GPS warm). Failing that, save borrows the nearest track vertex.
     getLocation(
       pos => {
+        if (!isFreshFix(pos, 30000)) return;
         det.detection_lat = +pos.coords.latitude.toFixed(5);
         det.detection_lon = +pos.coords.longitude.toFixed(5);
         saveActiveWalk();
